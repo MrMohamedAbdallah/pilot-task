@@ -13,12 +13,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+use App\Http\Controllers\UserController;
+
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+Route::get('/dashboard', [UserController::class, 'show'])->middleware(['auth'])->name('dashboard');
+Route::post('/dashboard', [UserController::class, 'update'])->middleware(['auth'])->name('dashboard.update');
 
 require __DIR__.'/auth.php';
