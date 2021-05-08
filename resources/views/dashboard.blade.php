@@ -35,6 +35,10 @@
     </header>
     {{-- END HEADER --}}
 
+    <div class="alert">
+        Display flash messaes here to the user
+    </div>
+
     {{-- BEGIN PAGE CONTAINER --}}
     <div class="page__container">
         <h1 class="page__title">Profile Details</h1>

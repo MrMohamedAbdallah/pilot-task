@@ -1,5 +1,6 @@
 $blue: rgb(0, 140, 255);
 $red: rgb(255, 0, 98);
+$green: rgb(0, 255, 128);
 
 *{box-sizing: border-box;}
 body{
@@ -59,7 +60,7 @@ body{
 }
 // ========== END GENERAL PAGE STYLE ==========
 
-
+// ========== BEGIN FORM STYLE ==========
 .form{
 
     &__title{
@@ -185,3 +186,16 @@ body{
     }
 
 }
+// ========== END FORM STYLE ==========
+
+// ========== BEGIN ALERT STYLE ==========
+.alert{
+    @include container;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: $green;
+    font-size: .9rem;
+    color: #333;
+    margin: 20px auto;
+}
+// ========== END ALERT STYLE ==========
