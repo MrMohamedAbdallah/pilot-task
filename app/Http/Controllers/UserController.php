@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -36,8 +37,17 @@ class UserController extends Controller
 
         $filePath = $user->profile_pic;
 
-        // Upload user profile picture if there's one
-        if($request->hasFile('profile_pic')){
+        // Upload user profile picture if there's one and delete if the user requests so
+        if($request->delete_pic){
+
+            // Delete the image from the disk
+            Storage::delete($filePath);
+            
+            $filePath = null;
+        } else if($request->hasFile('profile_pic')){
+            // Delete the old image from the disk
+            Storage::delete($filePath);
+
             $filePath = $request->file('profile_pic')->store('public/avatars');
         }
 
@@ -45,7 +55,7 @@ class UserController extends Controller
             'profile_pic'  => $filePath,
             'name'         => $request->name,
             'email'        => $request->email,
-            'phone'        => $request->phone,
+            'phone'         => $request->phone,
             'job_title'    => $request->job_title,
             'password'     => $request->password ? Hash::make($request->password) : $user->password
         ]);

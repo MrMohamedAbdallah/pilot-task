@@ -54,11 +54,11 @@
                     <span class="form__label">Profile Image</span>
                     {{-- BEGIN PROFILE PICTURE --}}
                     <div class="form__profile-pic">
-                        <input type="file" name="profile_pic" id="profile_pic" style="display: none;">
+                        <input type="file" name="profile_pic" id="profile_pic" accept="image/*" style="display: none;">
                         <div class="form__profile-pic__circle" @if($user->profile_pic) style="border: none;" @endif>
                             @if($user->profile_pic)
                             <img 
-                                src="{{ Storage::url($user->profile_pic, 'avatars') }}"
+                                src="{{ Storage::url($user->profile_pic) }}"
                                 alt="{{ $user->name }}"
                                 class="form__profile-pic__img">
                             @else
@@ -69,9 +69,23 @@
                             Upload a profile image
                             <br>
                             <small>This image will sometimes be used instead of your name</small>
+                            <br>
+                            <small id="profile_pic-value"></small>
                         </span>
                     </div>
                 </label>
+                <div>
+                    
+                @if($user->profile_pic)
+                <label for="delete_pic">
+                    <input type="checkbox" name="delete_pic" id="delete_pic" class="remove_pic">
+                    <span>
+                        &times; Remove Image
+                    </span>
+                </label>
+                @endif
+
+                </div>
                 @error('profile_pic')
                 <span class="form__msg">{{ $message }}</span>
                 @endif
@@ -199,6 +213,23 @@
         
     </div>
     {{-- END PAGE CONTAINER --}}
+
+    <script>
+        // Show profile picture file name
+        let fileValueElement = document.querySelector('#profile_pic-value');
+        document.querySelector('#profile_pic').addEventListener('change', function(){
+            if(this.value){
+                let paths = this.value.split('/');
+                if(paths.length <= 1)
+                    paths = this.value.split('\\');
+
+                let fileName = paths[paths.length - 1];
+                fileValueElement.innerText = 'Image: ' + fileName;
+            }
+            else
+                fileValueElement.innerText = ''
+        })
+    </script>
 
 </body>
 
